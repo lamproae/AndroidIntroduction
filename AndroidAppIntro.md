@@ -16,3 +16,26 @@ Android 应用程序由松散耦合的组件构成，并使用应用程序Manifest绑定到一起；应用程序
 	4. Manifest 文件由一个根manifest标签构成，该标签带有一个被设为项目包的package属性。它通常包含一个xmlns:android属性来提供文件内使用的某些系统属性。
 	5. 使用versionCode属性可将当前的应用程序版本号定义为一个整数，每次版本迭代时，这个数字都会增加。使用versionName可以定义一个显示给用户的公共版本号。
 	6. 通过使用installLocaton属性，这可以指定是否允许将应用程序安装到外部存储器而不是内部存储器上。为此可以将其指定为preferExternal或auto，使用前者时，只要有可能就会把应用程序安装到外部存储器上，后者则要求系统决定。
+	7. application节点： 
+		一个Manifest只能包含一个application节点。它使用各种属性来指定应用程序的各种元数据(包括标题，图标和主题）。在开发时，应该包含一个设置为true的debuggable属性以启用调试，但是在发布时可以禁用该属性。
+		application节点还可以作为一个包含了Activity，Service，Content Provider和Broadcast Receiver节点的容器，它包含的这些节点指定了应用程序的组件。使用android:name属性可以指定自定义Application类的名称。
+	8. Activity 节点：
+		应用程序内的每一个Activity都要求有一个activity标签，并使用android:name属性来指定Activity类的名称。必须包含核心的启动Activity和其他所有可以显示的Activity。启动任何一个没有在Manifest中定义的Activity时都会抛出一个运行时异常。每一个Activity节点都允许使用intent-filter子标签来定义用于启动该Activity的Intent。同样要注意，在指定Activity的类名时，可以使用句点号作为简写方式代替应用程序的包名。
+	9. service 和activity标签一样，需要为应用程序中使用的每一个Service类添加一个service标签。service标签页支持使用intent-filter子标签来允许运行时迟邦定。
+	10. provider 
+		provider标签用来指定应用程序中的每一个Content Provider。 Content Provider用来管理数据库访问和共享。
+	11. receiver 
+		通过添加receiver标签，可以注册一个Broadcast Receiver，而不用事先启动应用程序。
+		Broadcast Receiver就像全局事件监听器一样，一旦注册了之后，无论何时，只要与它相匹配的Intent被系统或应用程序广播出来，它就会立即执行。通过在Manifest中注册一个Broadcast Receiver，可以使这个进程实现完全自治。如果一个匹配的Intent被广播了，则应用程序就会自动启动，并且你注册的Broadcast Receiver也会开始运行。
+		每个receiver节点都被允许使用intent-filter子标签来定义可以用来触发接收器的Intent。
+
+3. 分离资源
+	1. 把非代码资源(如图片和字符串常量)和代码分离开来始终是一种好的做法。Android支持各种资源与代码的分离，从简单的字符串和颜色这样的值到更复杂的资源，例如图片（drawable)，动画，主题和菜单。
+	2. 也许可以分离的最复杂的资源就是布局。
+	3. 通过将资源分离开来，可以使它们更容易维护，更新和管理。这也可以让你轻松地定义多种可选的资源值来支持国际化需求，以及包含不同的资源来支持硬件的变化，特别是屏幕尺寸和分辨率的变化。
+	4. 应用程序资源存储在项目层次中的res文件夹下。在整个文件夹中，每一种可用的资源类型都存储在各自的子文件夹中。
+	5. 每种资源类型存储在不同的文件夹中，这些资源类型分别是：简单的值，Drawable，颜色，布局，动画，样式，菜单，XML，文件（包括searchable）和原始资源。
+	6. 当构建应用程序的时候，这些资源会被尽可能高效地编译和压缩，并包含到应用程序包中。这个过程中还创建一个R类文件，它包含了对加入到该项目中的每一个资源的引用，因此可以在代码中引用资源，其优势在于可以在设计时检查语法。
+	7. 在所有的情况下，资源文件名都应该只包含小写字母，数字，点(.)和下划线(_)。
+
+
